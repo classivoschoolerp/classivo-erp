@@ -7,4 +7,6 @@ return [
     'roles_locked' => 'Roles and permissions are locked in the public demo.',
     'setting_locked' => 'This setting is locked in the public demo.',
     'upload_limit' => 'Uploads are limited in the public demo (max :kb KB per file).',
+    'read_only' => 'This is a read-only demo account: you can look around but not change anything.',
+    'logins_title' => 'Demo sign-in',
 ];

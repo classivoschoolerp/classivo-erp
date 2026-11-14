@@ -4,7 +4,7 @@ A complete school management kit built with Laravel and Filament, as MIT-license
 
 ## Demo, docs and services
 
-- Live demo: https://demo.classivoerp.com
+- Live demo: https://demo.classivoerp.com (read-only sign-in: `viewer@example.com` / `password`)
 - Full documentation of all features: https://docs.classivoerp.com
 - Website: https://classivoerp.com
 - We offer free customisation and custom development services. Email us at info@classivoerp.com or contact us through our website: https://classivoerp.com/contact/

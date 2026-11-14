@@ -3,6 +3,7 @@
 namespace Classivo\ReportCards\Filament\Resources\IdCardTemplates;
 
 use BackedEnum;
+use Classivo\ReportCards\Filament\Concerns\AuthorizesThroughCanMethods;
 use Classivo\ReportCards\Filament\Concerns\ChecksPermissions;
 use Classivo\ReportCards\Filament\Resources\IdCardTemplates\Pages\ManageIdCardTemplates;
 use Classivo\ReportCards\Models\IdCardTemplate;
@@ -24,6 +25,7 @@ use UnitEnum;
 
 class IdCardTemplateResource extends Resource
 {
+    use AuthorizesThroughCanMethods;
     use ChecksPermissions;
 
     protected static ?string $model = IdCardTemplate::class;

@@ -3,9 +3,12 @@
 namespace Classivo\DemoGuard;
 
 use Classivo\DemoGuard\Http\Middleware\LimitDemoUploads;
+use Filament\Facades\Filament;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class DemoGuardServiceProvider extends ServiceProvider
@@ -33,10 +36,56 @@ class DemoGuardServiceProvider extends ServiceProvider
                 fn () => view('demo-guard::banner', ['resetTime' => config('demo-guard.banner.reset_time')])->render(),
             );
         }
+
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::AUTH_LOGIN_FORM_BEFORE,
+            fn (): string => self::loginsHtml(Filament::getCurrentPanel()?->getId()),
+        );
+    }
+
+    /** Demo sign-in details for a panel's login page ('' when none are configured). */
+    public static function loginsHtml(?string $panelId): string
+    {
+        $logins = $panelId ? (array) config('demo-guard.logins.'.$panelId, []) : [];
+
+        return $logins === [] ? '' : view('demo-guard::logins', ['logins' => $logins])->render();
+    }
+
+    /** Users holding a read-only role cannot write any record outside the allow-list. */
+    private function guardReadOnlyRoles(): void
+    {
+        $roles = (array) config('demo-guard.read_only.roles', []);
+        if ($roles === []) {
+            return;
+        }
+        $userModel = config('demo-guard.users.model') ?: config('auth.providers.users.model');
+
+        Event::listen(['eloquent.creating: *', 'eloquent.updating: *', 'eloquent.deleting: *'], function (string $event, array $payload) use ($roles, $userModel) {
+            $model = $payload[0] ?? null;
+            if (! $model instanceof Model || ! DemoGuard::active()) {
+                return;
+            }
+            $user = Auth::user();
+            if (! $user || ! method_exists($user, 'hasAnyRole') || ! $user->hasAnyRole($roles)) {
+                return;
+            }
+            foreach ((array) config('demo-guard.read_only.allow_models', []) as $allowed) {
+                if ($model instanceof $allowed) {
+                    return;
+                }
+            }
+            if ($userModel && $model instanceof $userModel && str_starts_with($event, 'eloquent.updating')
+                && array_diff(array_keys($model->getDirty()), (array) config('demo-guard.read_only.allow_user_attributes', [])) === []) {
+                return;
+            }
+            DemoGuard::deny(__('demo-guard::messages.read_only'));
+        });
     }
 
     private function guardModels(): void
     {
+        $this->guardReadOnlyRoles();
+
         $userModel = config('demo-guard.users.model') ?: config('auth.providers.users.model');
         if ($userModel && class_exists($userModel)) {
             $protected = (array) config('demo-guard.users.protected_attributes', []);

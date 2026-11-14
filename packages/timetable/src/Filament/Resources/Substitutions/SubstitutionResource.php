@@ -3,6 +3,7 @@
 namespace Classivo\Timetable\Filament\Resources\Substitutions;
 
 use BackedEnum;
+use Classivo\Core\Filament\Concerns\AuthorizesThroughCanMethods;
 use Classivo\Timetable\Filament\Resources\Substitutions\Pages\ListSubstitutions;
 use Classivo\Timetable\Models\Substitution;
 use Classivo\Timetable\Models\TimetablePeriod;
@@ -21,6 +22,8 @@ use Illuminate\Database\Eloquent\Builder;
 /** Substitution register: who covered which period on which date. View with `view`. */
 class SubstitutionResource extends Resource
 {
+    use AuthorizesThroughCanMethods;
+
     protected static ?string $model = Substitution::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;

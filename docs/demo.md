@@ -8,11 +8,14 @@ The password for every account is `password`.
 
 | Role | Email | Where it goes |
 |---|---|---|
-| Admin | admin@example.com | Admin panel (`/admin`) |
+| Read-only | viewer@example.com | Admin panel (`/admin`): every screen and report, but nothing can be changed |
+| Admin | admin@example.com | Admin panel (`/admin`), full access (for your own local install) |
 | Student | student@example.com | Student portal (`/student`) |
 | Parent | parent@example.com | Parent portal (`/parent`) |
 
 The student login is linked to the first student in the demo data. The parent login is that student's main guardian.
+
+The read-only login holds only view, report, print and download permissions. On the public demo the demo guard also refuses any save, edit or delete made while signed in with it. The sign-in details are shown on each login page of the public demo.
 
 ## Reset
 

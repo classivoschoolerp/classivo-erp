@@ -54,4 +54,37 @@ return [
         // core school settings
         School::class,
     ],
+
+    /*
+    | Read-only demo roles. A signed-in user holding one of these roles cannot create,
+    | update or delete any record, even where a permission was granted by mistake.
+    | allow_models: records written as a side effect of browsing (login log, activity log,
+    | notifications read-state, session list). allow_user_attributes: sign-in bookkeeping.
+    */
+    'read_only' => [
+        'roles' => ['Viewer'],
+        'allow_models' => [
+            'Classivo\\Platform\\Models\\LoginLog',
+            'Classivo\\Security\\Models\\UserSession',
+            'Spatie\\Activitylog\\Models\\Activity',
+            'Illuminate\\Notifications\\DatabaseNotification',
+        ],
+        'allow_user_attributes' => ['remember_token', 'updated_at', 'last_login_at', 'last_login_ip'],
+    ],
+
+    /*
+    | Sign-in details shown above the login form of each Filament panel (by panel id).
+    | Only shown while the demo guard is enabled. Use the seeded demo accounts only.
+    */
+    'logins' => [
+        'admin' => [
+            ['label' => 'Read-only demo', 'email' => 'viewer@example.com', 'password' => 'password'],
+        ],
+        'student' => [
+            ['label' => 'Student demo', 'email' => 'student@example.com', 'password' => 'password'],
+        ],
+        'parent' => [
+            ['label' => 'Parent demo', 'email' => 'parent@example.com', 'password' => 'password'],
+        ],
+    ],
 ];

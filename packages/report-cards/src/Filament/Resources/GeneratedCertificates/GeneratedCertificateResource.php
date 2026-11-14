@@ -3,6 +3,7 @@
 namespace Classivo\ReportCards\Filament\Resources\GeneratedCertificates;
 
 use BackedEnum;
+use Classivo\ReportCards\Filament\Concerns\AuthorizesThroughCanMethods;
 use Classivo\ReportCards\Filament\Concerns\ChecksPermissions;
 use Classivo\ReportCards\Filament\Resources\GeneratedCertificates\Pages\ManageGeneratedCertificates;
 use Classivo\ReportCards\Models\GeneratedCertificate;
@@ -22,6 +23,7 @@ use UnitEnum;
 /** Issued-certificate log. No create/edit form: certificates are issued from the header action. */
 class GeneratedCertificateResource extends Resource
 {
+    use AuthorizesThroughCanMethods;
     use ChecksPermissions;
 
     protected static ?string $model = GeneratedCertificate::class;

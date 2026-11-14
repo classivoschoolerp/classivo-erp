@@ -23,6 +23,7 @@ use Illuminate\Support\Carbon;
  * A fictional demo school. Every name, phone and email here is made up.
  *
  * Logins (password "password"): admin@example.com (admin panel),
+ * viewer@example.com (admin panel, read-only),
  * student@example.com (student portal, linked to the first student),
  * parent@example.com (parent portal, that student's primary guardian).
  */
@@ -49,6 +50,11 @@ class DemoSchoolSeeder extends Seeder
         User::query()->updateOrCreate(
             ['email' => 'admin@example.com'],
             ['name' => 'Demo Admin', 'password' => 'password', 'email_verified_at' => now()],
+        );
+
+        User::query()->updateOrCreate(
+            ['email' => 'viewer@example.com'],
+            ['name' => 'Demo Viewer', 'password' => 'password', 'email_verified_at' => now()],
         );
 
         $teacher = User::query()->updateOrCreate(

@@ -3,6 +3,7 @@
 namespace Classivo\ReportCards\Filament\Resources\ReportCardTemplates;
 
 use BackedEnum;
+use Classivo\ReportCards\Filament\Concerns\AuthorizesThroughCanMethods;
 use Classivo\ReportCards\Filament\Concerns\ChecksPermissions;
 use Classivo\ReportCards\Filament\Resources\ReportCardTemplates\Pages\ManageReportCardTemplates;
 use Classivo\ReportCards\Models\ReportCardTemplate;
@@ -22,6 +23,7 @@ use UnitEnum;
 
 class ReportCardTemplateResource extends Resource
 {
+    use AuthorizesThroughCanMethods;
     use ChecksPermissions;
 
     protected static ?string $model = ReportCardTemplate::class;

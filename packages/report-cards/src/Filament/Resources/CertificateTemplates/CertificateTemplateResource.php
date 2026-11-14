@@ -3,6 +3,7 @@
 namespace Classivo\ReportCards\Filament\Resources\CertificateTemplates;
 
 use BackedEnum;
+use Classivo\ReportCards\Filament\Concerns\AuthorizesThroughCanMethods;
 use Classivo\ReportCards\Filament\Concerns\ChecksPermissions;
 use Classivo\ReportCards\Filament\Resources\CertificateTemplates\Pages\ManageCertificateTemplates;
 use Classivo\ReportCards\Models\CertificateTemplate;
@@ -23,6 +24,7 @@ use UnitEnum;
 
 class CertificateTemplateResource extends Resource
 {
+    use AuthorizesThroughCanMethods;
     use ChecksPermissions;
 
     protected static ?string $model = CertificateTemplate::class;

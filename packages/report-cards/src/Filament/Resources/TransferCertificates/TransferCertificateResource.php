@@ -4,6 +4,7 @@ namespace Classivo\ReportCards\Filament\Resources\TransferCertificates;
 
 use BackedEnum;
 use Classivo\ReportCards\Adapters\ClassivoAdapter;
+use Classivo\ReportCards\Filament\Concerns\AuthorizesThroughCanMethods;
 use Classivo\ReportCards\Filament\Concerns\ChecksPermissions;
 use Classivo\ReportCards\Filament\Concerns\SelectsStudent;
 use Classivo\ReportCards\Filament\Resources\TransferCertificates\Pages\ManageTransferCertificates;
@@ -28,6 +29,7 @@ use UnitEnum;
 
 class TransferCertificateResource extends Resource
 {
+    use AuthorizesThroughCanMethods;
     use ChecksPermissions, SelectsStudent;
 
     protected static ?string $model = TransferCertificate::class;
