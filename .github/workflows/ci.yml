@@ -11,7 +11,7 @@ jobs:
     outputs:
       list: ${{ steps.ls.outputs.list }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - id: ls
         run: echo "list=$(ls -d packages/*/ | xargs -n1 basename | jq -R . | jq -s -c .)" >> "$GITHUB_OUTPUT"
 
@@ -25,7 +25,7 @@ jobs:
         php: ['8.3', '8.4']
         package: ${{ fromJSON(needs.packages.outputs.list) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
@@ -47,7 +47,7 @@ jobs:
   pint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
@@ -60,7 +60,7 @@ jobs:
   prepublish-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - run: bash scripts/prepublish-scan.sh .
