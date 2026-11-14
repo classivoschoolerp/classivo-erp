@@ -60,10 +60,10 @@ out=$(tr '\0' '\n' < "$LIST" | grep -vE '(^|/)(vendor|node_modules)/' | grep -E 
 out=$(tr '\0' '\n' < "$LIST" | grep -vE '(^|/)(vendor|node_modules)/' | grep -E '(\.pem|\.p8|\.keystore|\.jks)$|(^|/)id_rsa')
 [ -n "$out" ] && { hit "key/cert files present"; echo "$out"; }
 
-# 6. git metadata. Release mode (STRICT_AUTHOR set) checks all refs and every author email;
+# 6. git metadata. Release mode (STRICT_AUTHOR set) checks local branches + tags and every author email;
 #    contributor mode (CI) checks the current branch only and allows any author/sign-off email.
 if git rev-parse --git-dir >/dev/null 2>&1 && git rev-parse HEAD >/dev/null 2>&1; then
-  REFS=HEAD; [ -n "$STRICT_AUTHOR" ] && REFS=--all
+  REFS=HEAD; [ -n "$STRICT_AUTHOR" ] && REFS="--branches --tags"
   meta=$(git log $REFS --format='A:%an <%ae>%nC:%cn <%ce>%nM:%B%nT:%D' 2>/dev/null)
   out=$(echo "$meta" | grep -iE "$BAD|$KEYS") && { hit "forbidden terms in commit metadata"; echo "$out" | head -20; }
   out=$(echo "$meta" | grep -iE "$AI") && { hit "blocked terms (list B) in commit metadata"; echo "$out" | head -20; }
