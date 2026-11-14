@@ -8,6 +8,7 @@ use Classivo\Exams\Filament\Pages\MarksRegister;
 use Classivo\Exams\Models\Exam;
 use Classivo\Exams\Models\ExamGroup;
 use Classivo\Exams\Services\ExamResultService;
+use Classivo\Exams\Support\Authorize;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -72,7 +73,7 @@ class ExamsTable
                         ->icon('heroicon-o-check-badge')
                         ->color('success')
                         ->requiresConfirmation()
-                        ->visible(fn (Exam $record): bool => ! $record->is_published && \Classivo\Exams\Support\Authorize::can('publish_result'))
+                        ->visible(fn (Exam $record): bool => ! $record->is_published && Authorize::can('publish_result'))
                         ->action(function (Exam $record): void {
                             app(ExamResultService::class)->publish($record);
                             Notification::make()->success()->title(__('classivo-exams::ui.result_published'))->send();
@@ -82,7 +83,7 @@ class ExamsTable
                         ->icon('heroicon-o-lock-closed')
                         ->color('warning')
                         ->requiresConfirmation()
-                        ->visible(fn (Exam $record): bool => $record->is_published && \Classivo\Exams\Support\Authorize::can('publish_result'))
+                        ->visible(fn (Exam $record): bool => $record->is_published && Authorize::can('publish_result'))
                         ->action(function (Exam $record): void {
                             app(ExamResultService::class)->unpublish($record);
                             Notification::make()->success()->title(__('classivo-exams::ui.result_unpublished'))->send();

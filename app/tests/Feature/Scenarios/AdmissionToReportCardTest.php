@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Scenarios;
 
-use App\Models\User;
 use Classivo\Exams\Filament\Pages\ExamResults;
 use Classivo\Exams\Filament\Pages\MarksRegister;
 use Classivo\Exams\Models\Exam;
@@ -10,8 +9,10 @@ use Classivo\Exams\Models\ExamGroup;
 use Classivo\Exams\Models\ExamResult;
 use Classivo\Exams\Models\ExamSchedule;
 use Classivo\Exams\Models\Mark;
+use Classivo\FrontOffice\FrontOfficePlugin;
 use Classivo\FrontOffice\Models\OnlineAdmission;
 use Classivo\FrontOffice\Services\OnlineAdmissionService;
+use Classivo\Hostel\HostelPlugin;
 use Classivo\Hostel\Models\Hostel;
 use Classivo\Hostel\Models\HostelAllocation;
 use Classivo\Hostel\Models\HostelRoom;
@@ -25,6 +26,7 @@ use Classivo\Transport\Models\Stoppage;
 use Classivo\Transport\Models\StudentTransport;
 use Classivo\Transport\Models\Vehicle;
 use Classivo\Transport\Services\TransportAssignmentService;
+use Classivo\Transport\TransportPlugin;
 use Livewire\Livewire;
 
 /**
@@ -37,7 +39,7 @@ class AdmissionToReportCardTest extends ScenarioTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->requirePackages(\Classivo\FrontOffice\FrontOfficePlugin::class, \Classivo\Hostel\HostelPlugin::class, \Classivo\Transport\TransportPlugin::class);
+        $this->requirePackages(FrontOfficePlugin::class, HostelPlugin::class, TransportPlugin::class);
     }
 
     public function test_applicant_becomes_a_student_with_transport_hostel_attendance_marks_and_a_marksheet(): void

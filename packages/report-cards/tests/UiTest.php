@@ -2,12 +2,13 @@
 
 namespace Classivo\ReportCards\Tests;
 
+use Classivo\Core\Models\School;
+use Classivo\Exams\Contracts\ResultDocumentLinks;
 use Classivo\Exams\Models\Exam;
 use Classivo\Exams\Models\ExamGroup;
 use Classivo\Exams\Models\ExamSchedule;
 use Classivo\Exams\Services\ExamMarksService;
 use Classivo\Exams\Services\ExamResultService;
-use Classivo\Exams\Contracts\ResultDocumentLinks;
 use Classivo\ReportCards\Filament\Resources\CertificateTemplates\Pages\ManageCertificateTemplates;
 use Classivo\ReportCards\Filament\Resources\GeneratedCertificates\Pages\ManageGeneratedCertificates;
 use Classivo\ReportCards\Filament\Resources\IdCardTemplates\Pages\ManageIdCardTemplates;
@@ -18,8 +19,9 @@ use Classivo\ReportCards\Models\GeneratedCertificate;
 use Classivo\ReportCards\Models\IdCardTemplate;
 use Classivo\ReportCards\Models\ReportCardTemplate;
 use Classivo\ReportCards\Models\TransferCertificate;
+use Classivo\ReportCards\Services\ResultDocuments;
 use Classivo\ReportCards\Support\Permissions;
-use Classivo\ReportCards\Renderer\PdfRenderer;
+use Classivo\Students\Models\Student;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
 
@@ -141,7 +143,7 @@ class UiTest extends UiTestCase
     public function test_result_document_routes_produce_pdfs(): void
     {
         $exam = $this->seedResults();
-        $student = \Classivo\Students\Models\Student::where('admission_no', 'ADM1')->first();
+        $student = Student::where('admission_no', 'ADM1')->first();
 
         $this->actAs([]);
         $this->get(route('report-cards.tabulation', ['exam' => $exam->id, 'classSection' => $this->classSection->id]))->assertForbidden();
@@ -162,8 +164,8 @@ class UiTest extends UiTestCase
     public function test_result_document_routes_refuse_another_schools_records(): void
     {
         $exam = $this->seedResults();
-        $student = \Classivo\Students\Models\Student::where('admission_no', 'ADM1')->first();
-        $other = \Classivo\Core\Models\School::create(['name' => 'Second School', 'code' => 'SEC']);
+        $student = Student::where('admission_no', 'ADM1')->first();
+        $other = School::create(['name' => 'Second School', 'code' => 'SEC']);
 
         // Move the exam, the student and the class-section to the other school.
         foreach ([$exam, $student, $this->classSection] as $model) {
@@ -182,17 +184,18 @@ class UiTest extends UiTestCase
     public function test_marksheet_refuses_a_student_who_did_not_sit_the_exam(): void
     {
         $exam = $this->seedResults();
-        $stranger = \Classivo\Students\Models\Student::create(['first_name' => 'Not', 'last_name' => 'Here', 'admission_no' => 'ADM99', 'status' => 'active']);
+        $stranger = Student::create(['first_name' => 'Not', 'last_name' => 'Here', 'admission_no' => 'ADM99', 'status' => 'active']);
 
         $this->actAs(['marksheets.download']);
         $this->get(route('report-cards.marksheet', ['exam' => $exam->id, 'student' => $stranger->id]))->assertNotFound();
     }
+
     public function test_marksheets_zip_leaves_no_stray_temp_file(): void
     {
         $exam = $this->seedResults();
         $before = glob(sys_get_temp_dir().'/rc*') ?: [];
 
-        $zip = app(\Classivo\ReportCards\Services\ResultDocuments::class)->marksheetsZip($exam, $this->classSection);
+        $zip = app(ResultDocuments::class)->marksheetsZip($exam, $this->classSection);
 
         $new = array_values(array_diff(glob(sys_get_temp_dir().'/rc*') ?: [], $before));
         $this->assertSame([basename($zip)], array_map('basename', $new));

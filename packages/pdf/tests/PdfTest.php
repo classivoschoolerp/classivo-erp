@@ -12,13 +12,16 @@ use Psr\Log\AbstractLogger;
 class FakeRenderer implements PdfRenderer
 {
     public int $calls = 0;
+
     public function __construct(private string $out, private bool $fail = false) {}
+
     public function render(string $html, array $options = []): string
     {
         $this->calls++;
         if ($this->fail) {
             throw new PdfException('boom');
         }
+
         return $this->out;
     }
 }
@@ -26,14 +29,28 @@ class FakeRenderer implements PdfRenderer
 class FakeShot
 {
     public array $log = [];
-    public function __call($m, $a) { $this->log[] = $m; return $this; }
-    public function pdf() { return '%PDF-chrome'; }
+
+    public function __call($m, $a)
+    {
+        $this->log[] = $m;
+
+        return $this;
+    }
+
+    public function pdf()
+    {
+        return '%PDF-chrome';
+    }
 }
 
 class MemLog extends AbstractLogger
 {
     public array $lines = [];
-    public function log($level, $message, array $context = []): void { $this->lines[] = [$level, (string) $message]; }
+
+    public function log($level, $message, array $context = []): void
+    {
+        $this->lines[] = [$level, (string) $message];
+    }
 }
 
 class PdfTest extends TestCase

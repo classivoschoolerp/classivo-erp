@@ -2,9 +2,12 @@
 
 namespace Classivo\Timetable\Tests\Feature;
 
+use Classivo\Core\Models\ClassSection;
+use Classivo\Core\Models\Subject;
 use Classivo\Timetable\Exceptions\TimetableConflictException;
 use Classivo\Timetable\Models\Timetable;
 use Classivo\Timetable\Models\TimetablePeriod;
+use Classivo\Timetable\Tests\Support\User;
 use Classivo\Timetable\Tests\TestCase;
 
 /**
@@ -13,7 +16,7 @@ use Classivo\Timetable\Tests\TestCase;
  */
 class TimetableConflictTest extends TestCase
 {
-    /** @return array{cs: \Classivo\Core\Models\ClassSection, cs2: \Classivo\Core\Models\ClassSection, subject: \Classivo\Core\Models\Subject, teacher: \Classivo\Timetable\Tests\Support\User} */
+    /** @return array{cs: ClassSection, cs2: ClassSection, subject: Subject, teacher: User} */
     private function fixtures(): array
     {
         [$cs, $cs2] = $this->classWithSections('Grade 1', 1, ['A', 'B']);

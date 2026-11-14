@@ -2,6 +2,7 @@
 
 namespace Classivo\Exams\Tests\Feature;
 
+use Classivo\Core\Models\ClassTeacher;
 use Classivo\Core\Models\Subject;
 use Classivo\Exams\Filament\Pages\BuildExamSchedule;
 use Classivo\Exams\Filament\Pages\ExamResults;
@@ -11,6 +12,8 @@ use Classivo\Exams\Models\ExamGroup;
 use Classivo\Exams\Models\ExamResult;
 use Classivo\Exams\Models\ExamSchedule;
 use Classivo\Exams\Models\Mark;
+use Classivo\Exams\Services\ExamMarksService;
+use Classivo\Exams\Support\ExamsPermissions;
 use Classivo\Exams\Tests\Support\User;
 use Classivo\Exams\Tests\TestCase;
 use Filament\Facades\Filament;
@@ -54,7 +57,7 @@ class PagesTest extends TestCase
 
     public function test_schedule_page_saves_subject_rows(): void
     {
-        $this->actingWith(\Classivo\Exams\Support\ExamsPermissions::SCHEDULE_BUILD);
+        $this->actingWith(ExamsPermissions::SCHEDULE_BUILD);
         $science = $this->makeSubject('Science');
 
         Livewire::test(BuildExamSchedule::class)
@@ -73,7 +76,7 @@ class PagesTest extends TestCase
 
     public function test_schedule_page_rejects_pass_marks_above_full_marks(): void
     {
-        $this->actingWith(\Classivo\Exams\Support\ExamsPermissions::SCHEDULE_BUILD);
+        $this->actingWith(ExamsPermissions::SCHEDULE_BUILD);
 
         Livewire::test(BuildExamSchedule::class)
             ->set('data.exam_id', $this->exam->id)
@@ -90,7 +93,7 @@ class PagesTest extends TestCase
     {
         $student = $this->makeStudent('Aarav', 1);
         $teacher = $this->actingWith('exam.enter_marks');
-        \Classivo\Core\Models\ClassTeacher::create(['class_section_id' => $this->classSection->id, 'teacher_id' => $teacher->id, 'is_primary' => true]);
+        ClassTeacher::create(['class_section_id' => $this->classSection->id, 'teacher_id' => $teacher->id, 'is_primary' => true]);
 
         $page = Livewire::test(MarksRegister::class)
             ->set('data.exam_id', $this->exam->id)
@@ -117,7 +120,7 @@ class PagesTest extends TestCase
         Livewire::test(MarksRegister::class)->assertForbidden();
 
         // Read-only viewer: may load the register but saving writes nothing.
-        $this->actingWith(\Classivo\Exams\Support\ExamsPermissions::MARKS_VIEW);
+        $this->actingWith(ExamsPermissions::MARKS_VIEW);
         $page = Livewire::test(MarksRegister::class)
             ->set('data.exam_id', $this->exam->id)
             ->set('data.class_section_id', $this->classSection->id)
@@ -134,7 +137,7 @@ class PagesTest extends TestCase
     {
         $student = $this->makeStudent('Aarav', 1);
         $teacher = $this->actingWith('exam.enter_marks');
-        \Classivo\Core\Models\ClassTeacher::create(['class_section_id' => $this->classSection->id, 'teacher_id' => $teacher->id, 'is_primary' => true]);
+        ClassTeacher::create(['class_section_id' => $this->classSection->id, 'teacher_id' => $teacher->id, 'is_primary' => true]);
 
         $page = Livewire::test(MarksRegister::class)
             ->set('data.exam_id', $this->exam->id)
@@ -151,12 +154,12 @@ class PagesTest extends TestCase
     public function test_results_page_generates_and_publish_is_permission_gated(): void
     {
         $student = $this->makeStudent('Aarav', 1);
-        app(\Classivo\Exams\Services\ExamMarksService::class)->save(
+        app(ExamMarksService::class)->save(
             $this->exam, $this->classSection, $this->english, [['student_id' => $student->id, 'marks_obtained' => 88]],
         );
 
         // Results permissions without publish: generate works, publish is refused.
-        $this->actingWith(\Classivo\Exams\Support\ExamsPermissions::RESULTS_VIEW, \Classivo\Exams\Support\ExamsPermissions::RESULTS_GENERATE);
+        $this->actingWith(ExamsPermissions::RESULTS_VIEW, ExamsPermissions::RESULTS_GENERATE);
         Livewire::test(ExamResults::class)
             ->set('data.exam_id', $this->exam->id)
             ->set('data.class_section_id', $this->classSection->id)

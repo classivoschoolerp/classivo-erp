@@ -3,11 +3,11 @@
 namespace Classivo\Exams\Services;
 
 use Classivo\Core\Models\ClassSection;
+use Classivo\Core\Models\Subject;
 use Classivo\Exams\Models\Exam;
 use Classivo\Exams\Models\ExamSchedule;
 use Classivo\Exams\Models\Grade;
 use Classivo\Exams\Models\Mark;
-use Classivo\Core\Models\Subject;
 use Classivo\Exams\Support\MarksScope;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;

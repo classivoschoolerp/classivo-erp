@@ -11,6 +11,5 @@ final class BestOfResult
         public readonly array $subjects,
         public readonly float $average,
         public readonly bool $complete,
-    ) {
-    }
+    ) {}
 }

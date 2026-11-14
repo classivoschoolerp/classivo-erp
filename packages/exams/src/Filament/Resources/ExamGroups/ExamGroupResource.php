@@ -2,6 +2,7 @@
 
 namespace Classivo\Exams\Filament\Resources\ExamGroups;
 
+use BackedEnum;
 use Classivo\Core\Filament\Concerns\AuthorizesWithPermissions;
 use Classivo\Exams\Filament\Resources\ExamGroups\Pages\CreateExamGroup;
 use Classivo\Exams\Filament\Resources\ExamGroups\Pages\EditExamGroup;
@@ -9,14 +10,12 @@ use Classivo\Exams\Filament\Resources\ExamGroups\Pages\ListExamGroups;
 use Classivo\Exams\Filament\Resources\ExamGroups\Schemas\ExamGroupForm;
 use Classivo\Exams\Filament\Resources\ExamGroups\Tables\ExamGroupsTable;
 use Classivo\Exams\Models\ExamGroup;
-use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use UnitEnum;
 
 /**
  * ExamGroupResource. Groups of exams with an

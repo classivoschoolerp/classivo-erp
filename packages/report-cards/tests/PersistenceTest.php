@@ -2,9 +2,8 @@
 
 namespace Classivo\ReportCards\Tests;
 
-use Classivo\ReportCards\DTO\Institution;
+use Classivo\Core\CoreServiceProvider;
 use Classivo\ReportCards\Models\CertificateTemplate;
-use Classivo\ReportCards\Models\GeneratedCertificate;
 use Classivo\ReportCards\Models\TransferCertificate;
 use Classivo\ReportCards\Samples\SampleData;
 use Classivo\ReportCards\Services\CertificateIssuer;
@@ -15,7 +14,7 @@ class PersistenceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        if (! class_exists(\Classivo\Core\CoreServiceProvider::class)) {
+        if (! class_exists(CoreServiceProvider::class)) {
             $this->markTestSkipped('classivo/core not installed');
         }
         $this->app['config']->set('report-cards.persistence', true);
@@ -25,7 +24,7 @@ class PersistenceTest extends TestCase
 
     protected function getPackageProviders($app): array
     {
-        return array_merge(parent::getPackageProviders($app), [\Classivo\Core\CoreServiceProvider::class]);
+        return array_merge(parent::getPackageProviders($app), [CoreServiceProvider::class]);
     }
 
     public function test_issue_numbers_and_store_pdf(): void

@@ -3,6 +3,7 @@
 namespace Classivo\Exams\Tests\Feature;
 
 use Classivo\Core\Database\Seeders\CorePermissionSeeder;
+use Classivo\Core\Support\Permissions;
 use Classivo\Exams\Database\Seeders\ExamsPermissionSeeder;
 use Classivo\Exams\Filament\Pages\BuildExamSchedule;
 use Classivo\Exams\Filament\Pages\ExamResults;
@@ -19,6 +20,7 @@ use Classivo\Exams\Support\ExamsPermissions;
 use Classivo\Exams\Tests\Support\User;
 use Classivo\Exams\Tests\TestCase;
 use Classivo\Students\Database\Seeders\StudentsPermissionSeeder;
+use Classivo\Students\Support\StudentsPermissions;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
 use Spatie\Permission\Models\Permission;
@@ -114,7 +116,7 @@ class AuthorizationTest extends TestCase
         $admin->assignRole('Admin');
         $clerk = User::create(['name' => 'Clerk']);
 
-        foreach (array_merge(\Classivo\Core\Support\Permissions::all(), \Classivo\Students\Support\StudentsPermissions::all(), ExamsPermissions::all()) as $permission) {
+        foreach (array_merge(Permissions::all(), StudentsPermissions::all(), ExamsPermissions::all()) as $permission) {
             $this->assertTrue($admin->can($permission), $permission);
             $this->assertFalse($clerk->can($permission), $permission);
         }

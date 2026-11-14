@@ -3,6 +3,7 @@
 namespace Classivo\Timetable\Tests\Feature;
 
 use Classivo\Core\Models\ClassSubject;
+use Classivo\Core\Models\ClassTeacher;
 use Classivo\Timetable\Events\SubstitutionAssigned;
 use Classivo\Timetable\Events\SubstitutionCancelled;
 use Classivo\Timetable\Filament\Pages\TeacherSubstitution;
@@ -56,7 +57,7 @@ class SubstitutionTest extends TestCase
         TimetablePeriod::create(['timetable_id' => $a->id, 'day_of_week' => 2, 'period_no' => 1, 'start_time' => '08:00', 'end_time' => '08:45', 'teacher_id' => $this->t['absent']->id]);
 
         ClassSubject::create(['class_id' => $this->cs[0]->class_id, 'subject_id' => $this->subjects['mat']->id, 'teacher_id' => $this->t['maths']->id]);
-        \Classivo\Core\Models\ClassTeacher::create(['class_section_id' => $this->cs[0]->id, 'teacher_id' => $this->t['free']->id, 'is_primary' => true]);
+        ClassTeacher::create(['class_section_id' => $this->cs[0]->id, 'teacher_id' => $this->t['free']->id, 'is_primary' => true]);
     }
 
     public function test_mark_absent_suggests_free_qualified_teachers_and_assigns(): void

@@ -6,15 +6,24 @@ on:
   pull_request:
 
 jobs:
+  packages:
+    runs-on: ubuntu-latest
+    outputs:
+      list: ${{ steps.ls.outputs.list }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: ls
+        run: echo "list=$(ls -d packages/*/ | xargs -n1 basename | jq -R . | jq -s -c .)" >> "$GITHUB_OUTPUT"
+
   test:
+    needs: packages
     name: ${{ matrix.package }} (PHP ${{ matrix.php }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         php: ['8.3', '8.4']
-        # TODO: keep in sync with the folders under packages/
-        package: [core, students, exams, report-cards, timetable, grading, fees, library, transport, hr]
+        package: ${{ fromJSON(needs.packages.outputs.list) }}
     steps:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2

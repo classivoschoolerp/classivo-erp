@@ -3,6 +3,7 @@
 namespace Tests\Feature\Scenarios;
 
 use App\Models\User;
+use Classivo\Hr\HrPlugin;
 use Classivo\Hr\Models\Payroll;
 use Classivo\Hr\Models\Staff;
 use Classivo\Hr\Models\StaffAttendance;
@@ -15,7 +16,7 @@ class HrPayrollScenarioTest extends ScenarioTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->requirePackages(\Classivo\Hr\HrPlugin::class);
+        $this->requirePackages(HrPlugin::class);
     }
 
     public function test_joiner_attendance_payroll_and_payslip_download(): void
@@ -66,7 +67,7 @@ class HrPayrollScenarioTest extends ScenarioTestCase
         $this->get(route('payroll.payslip', ['payroll' => $payroll->id]))->assertForbidden();
 
         auth()->logout();
-        $this->get(route("payroll.payslip", ["payroll" => $payroll->id]))
+        $this->get(route('payroll.payslip', ['payroll' => $payroll->id]))
             ->assertRedirect(null); // BUG app/bootstrap/app.php:13 - guest gets 500 (no login route), see PermissionBoundariesTest
     }
 }

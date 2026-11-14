@@ -19,6 +19,7 @@ use Classivo\Grading\InvalidConfiguration;
 final class GradeScale
 {
     public const THRESHOLD = 'threshold';
+
     public const STRICT = 'strict';
 
     /** @var list<Band> highest min first */

@@ -27,9 +27,13 @@ use Classivo\Grading\Schemes\SchemeRegistry;
 final class IndiaPreset
 {
     public const CBSE_1_8 = 'cbse.1-8';
+
     public const CBSE_9_12 = 'cbse.9-12';
+
     public const ICSE = 'icse';
+
     public const ISC = 'isc';
+
     public const STATE_GENERIC = 'state.generic';
 
     /** All India schemes, CBSE classes 9-12 as the default. */

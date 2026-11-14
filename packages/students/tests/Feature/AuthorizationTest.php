@@ -4,12 +4,16 @@ namespace Classivo\Students\Tests\Feature;
 
 use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
 use BladeUI\Icons\BladeIconsServiceProvider;
+use Classivo\Core\Models\AcademicSession;
+use Classivo\Core\Tenancy\Scopes\SessionScope;
 use Classivo\Students\Filament\Pages\StudentPromotion;
 use Classivo\Students\Filament\Pages\TakeAttendance;
 use Classivo\Students\Filament\Pages\TakeSubjectAttendance;
 use Classivo\Students\Filament\Resources\GuardianResource;
 use Classivo\Students\Filament\Resources\StudentCategoryResource;
 use Classivo\Students\Filament\Resources\StudentResource;
+use Classivo\Students\Filament\Resources\StudentResource\Pages\ListStudents;
+use Classivo\Students\Models\StudentSessionRecord;
 use Classivo\Students\Support\StudentsPermissions;
 use Classivo\Students\Tests\Support\StubUser;
 use Classivo\Students\Tests\Support\TestPanelProvider;
@@ -96,7 +100,7 @@ class AuthorizationTest extends TestCase
         $this->get(StudentResource::getUrl('create'))->assertForbidden();
         $this->get(StudentResource::getUrl('edit', ['record' => $student]))->assertForbidden();
         $this->assertFalse(StudentResource::canDelete($student));
-        Livewire::test(\Classivo\Students\Filament\Resources\StudentResource\Pages\ListStudents::class)
+        Livewire::test(ListStudents::class)
             ->assertTableActionHidden('edit', $student)
             ->assertTableActionHidden('disable', $student);
         $this->assertFalse(GuardianResource::canViewAny(), 'no leakage across resources');
@@ -125,7 +129,7 @@ class AuthorizationTest extends TestCase
         $mine = $this->admit(['first_name' => 'Mine']);
         $otherSection = $this->classSectionFor($this->session->id, 'Grade 3', 3, 'C');
         $other = $this->admit(['first_name' => 'Other', 'class_id' => $otherSection->class_id, 'section_id' => $otherSection->section_id]);
-        $session2 = \Classivo\Core\Models\AcademicSession::create(['school_id' => $this->school->id, 'name' => '2027-2028', 'is_current' => false, 'status' => true]);
+        $session2 = AcademicSession::create(['school_id' => $this->school->id, 'name' => '2027-2028', 'is_current' => false, 'status' => true]);
         $target = $this->classSectionFor($session2->id, 'Grade 2', 2, 'A');
         $this->signIn([StudentsPermissions::PROMOTE]);
 
@@ -139,7 +143,7 @@ class AuthorizationTest extends TestCase
             ])
             ->call('promote');
 
-        $records = \Classivo\Students\Models\StudentSessionRecord::withoutGlobalScope(\Classivo\Core\Tenancy\Scopes\SessionScope::class)
+        $records = StudentSessionRecord::withoutGlobalScope(SessionScope::class)
             ->where('session_id', $session2->id);
         $this->assertTrue((clone $records)->where('student_id', $mine->id)->exists());
         $this->assertFalse((clone $records)->where('student_id', $other->id)->exists());

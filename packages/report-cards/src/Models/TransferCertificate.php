@@ -6,7 +6,9 @@ use Classivo\Core\Concerns\BelongsToBranch;
 use Classivo\Core\Concerns\BelongsToSession;
 use Classivo\Core\Concerns\BelongsToTenant;
 use Classivo\ReportCards\Models\Concerns\HasNumberSeries;
+use Classivo\Students\Models\Student;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /** An issued Transfer Certificate with an auto, unique tc_number series. */
@@ -28,9 +30,9 @@ class TransferCertificate extends Model
         ];
     }
 
-    public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(\Classivo\Students\Models\Student::class);
+        return $this->belongsTo(Student::class);
     }
 
     public static function nextNumber(?int $schoolId = null): string

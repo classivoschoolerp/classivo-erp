@@ -8,6 +8,7 @@ use Classivo\Timetable\Generator\Options;
 use Classivo\Timetable\Generator\Problem;
 use Classivo\Timetable\Generator\Result;
 use Classivo\Timetable\Generator\Room;
+use Classivo\Timetable\Generator\TimetableGenerator;
 
 class TimetableGeneratorTest extends GeneratorTestCase
 {
@@ -380,7 +381,7 @@ class TimetableGeneratorTest extends GeneratorTestCase
             fn () => new Lesson('A', 'MAT', 'T1', -1),
             fn () => new Lesson('A', 'MAT', 'T1', 1, roomType: 'lab', roomId: 'R1'),
             fn () => new Options(timeLimitSeconds: 0),
-            fn () => (new \Classivo\Timetable\Generator\TimetableGenerator)->solve(
+            fn () => (new TimetableGenerator)->solve(
                 new Problem([1], 5, ['A'], [new Lesson('A', 'MAT', 'T1', 1, roomId: 'NOPE')]),
             ),
         ];

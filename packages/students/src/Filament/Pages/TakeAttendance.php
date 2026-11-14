@@ -23,6 +23,7 @@ use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Support\Collection;
 
 /**
  * Take daily student attendance: pick a class-section + date, load the
@@ -192,7 +193,7 @@ class TakeAttendance extends Page
     }
 
     /** @param  array<string, mixed>  $data */
-    protected function existingMarks(ClassSection $classSection, array $data): \Illuminate\Support\Collection
+    protected function existingMarks(ClassSection $classSection, array $data): Collection
     {
         return app(AttendanceService::class)->existingDaily($classSection->id, $data['date']);
     }

@@ -3,6 +3,10 @@
 namespace Classivo\Exams\Services;
 
 use Classivo\Core\Models\ClassSection;
+use Classivo\Core\Tenancy\Scopes\SessionScope;
+use Classivo\Exams\Events\ExamResultsGenerated;
+use Classivo\Exams\Events\ExamResultsPublished;
+use Classivo\Exams\Events\ExamResultsUnpublished;
 use Classivo\Exams\Models\Division;
 use Classivo\Exams\Models\Exam;
 use Classivo\Exams\Models\ExamResult;
@@ -11,10 +15,6 @@ use Classivo\Exams\Models\Grade;
 use Classivo\Exams\Models\Mark;
 use Classivo\Students\Models\Student;
 use Classivo\Students\Models\StudentSessionRecord;
-use Classivo\Core\Tenancy\Scopes\SessionScope;
-use Classivo\Exams\Events\ExamResultsGenerated;
-use Classivo\Exams\Events\ExamResultsPublished;
-use Classivo\Exams\Events\ExamResultsUnpublished;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 

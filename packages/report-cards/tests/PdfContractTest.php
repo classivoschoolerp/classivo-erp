@@ -6,12 +6,14 @@ use Classivo\Pdf\PdfRenderer as Contract;
 use Classivo\ReportCards\Renderer\PdfRenderer;
 use Classivo\ReportCards\Samples\SampleData;
 
-final class SpyPdf implements \Classivo\Pdf\PdfRenderer
+final class SpyPdf implements Contract
 {
     public array $calls = [];
+
     public function render(string $html, array $options = []): string
     {
         $this->calls[] = [$html, $options, app()->getLocale()];
+
         return '%PDF-spy';
     }
 }

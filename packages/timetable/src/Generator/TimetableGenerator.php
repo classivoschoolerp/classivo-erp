@@ -645,7 +645,7 @@ final class TimetableGenerator
         }
 
         $cap = $this->options->maxSameSubjectPerDay;
-        if ($cap !== null && $this->subjectDay[$this->reqSubject[$r]][$this->slotDay[$s]] >= $cap) {
+        if ($cap !== null && $cap <= $this->subjectDay[$this->reqSubject[$r]][$this->slotDay[$s]]) {
             return false;
         }
 

@@ -2,13 +2,14 @@
 
 namespace Classivo\Exams\Filament\Pages;
 
-use Classivo\Exams\Support\ExamsPermissions;
+use BackedEnum;
 use Classivo\Core\Models\ClassSection;
 use Classivo\Exams\Contracts\ResultDocumentLinks;
 use Classivo\Exams\Models\Exam;
 use Classivo\Exams\Models\ExamResult;
 use Classivo\Exams\Services\ExamResultService;
-use BackedEnum;
+use Classivo\Exams\Support\Authorize;
+use Classivo\Exams\Support\ExamsPermissions;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -23,7 +24,6 @@ use Filament\Schemas\Components\Section as FormSection;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use UnitEnum;
 
 /**
  * Exam Results — a custom page.
@@ -62,7 +62,7 @@ class ExamResults extends Page
 
     public static function canAccess(): bool
     {
-        return ExamsPermissions::can(ExamsPermissions::RESULTS_VIEW) || \Classivo\Exams\Support\Authorize::can('publish_result');
+        return ExamsPermissions::can(ExamsPermissions::RESULTS_VIEW) || Authorize::can('publish_result');
     }
 
     public function mount(): void
@@ -102,14 +102,14 @@ class ExamResults extends Page
                                 ->label(__('classivo-exams::ui.publish'))
                                 ->icon(Heroicon::OutlinedCheckBadge)
                                 ->color('success')
-                                ->visible(fn (): bool => (bool) \Classivo\Exams\Support\Authorize::can('publish_result'))
+                                ->visible(fn (): bool => (bool) Authorize::can('publish_result'))
                                 ->requiresConfirmation()
                                 ->action(fn () => $this->publish()),
                             Action::make('unpublishBtn')
                                 ->label(__('classivo-exams::ui.unpublish'))
                                 ->icon(Heroicon::OutlinedLockClosed)
                                 ->color('warning')
-                                ->visible(fn (): bool => (bool) \Classivo\Exams\Support\Authorize::can('publish_result'))
+                                ->visible(fn (): bool => (bool) Authorize::can('publish_result'))
                                 ->requiresConfirmation()
                                 ->action(fn () => $this->unpublish()),
                         ]),
@@ -163,7 +163,7 @@ class ExamResults extends Page
     /** Publish results (gated by `exam.publish_result`). */
     public function publish(): void
     {
-        if (! \Classivo\Exams\Support\Authorize::can('publish_result')) {
+        if (! Authorize::can('publish_result')) {
             Notification::make()->danger()->title(__('classivo-exams::ui.you_are_not_allowed_to_publish_results'))->send();
 
             return;
@@ -186,7 +186,7 @@ class ExamResults extends Page
     /** Unpublish results (gated by `exam.publish_result`). */
     public function unpublish(): void
     {
-        if (! \Classivo\Exams\Support\Authorize::can('publish_result')) {
+        if (! Authorize::can('publish_result')) {
             Notification::make()->danger()->title(__('classivo-exams::ui.you_are_not_allowed_to_unpublish_results'))->send();
 
             return;

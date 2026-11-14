@@ -2,11 +2,13 @@
 
 namespace App\Models\Concerns;
 
+use Classivo\Security\Concerns\Auditable;
+
 // Audit trail from classivo/security when that package is installed; otherwise nothing.
-if (trait_exists(\Classivo\Security\Concerns\Auditable::class)) {
+if (trait_exists(Auditable::class)) {
     trait AuditsWhenInstalled
     {
-        use \Classivo\Security\Concerns\Auditable;
+        use Auditable;
     }
 } else {
     trait AuditsWhenInstalled {}

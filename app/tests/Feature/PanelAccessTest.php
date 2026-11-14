@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
 use Tests\TestCase;
 
 /**
@@ -48,7 +49,7 @@ class PanelAccessTest extends TestCase
         $admin = User::where('email', 'admin@example.com')->firstOrFail();
 
         $this->assertTrue($admin->hasRole('Admin'));
-        $this->assertSame(\Spatie\Permission\Models\Permission::count(), $admin->getAllPermissions()->count());
+        $this->assertSame(Permission::count(), $admin->getAllPermissions()->count());
     }
 
     public function test_every_registered_screen_loads_for_the_admin(): void

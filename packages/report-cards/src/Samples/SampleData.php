@@ -9,6 +9,7 @@ use Classivo\ReportCards\DTO\MarksheetData;
 use Classivo\ReportCards\DTO\StudentInfo;
 use Classivo\ReportCards\DTO\SubjectResult;
 use Classivo\ReportCards\DTO\TransferCertificateData;
+use Classivo\ReportCards\Support\QrCode;
 
 /** Entirely fictional data for demos, docs and tests. */
 final class SampleData
@@ -84,7 +85,7 @@ final class SampleData
             'father_name' => 'Rohan Verma', 'mother_name' => 'Meera Verma', 'dob' => '14 Mar 2011',
             'session' => '2026-27', 'school_name' => 'Greenfield Public School', 'date' => '01 Apr 2027',
             'certificate_no' => 'CERT00001',
-            'qr_code' => '<img src="'.\Classivo\ReportCards\Support\QrCode::dataUri('ADM-1001').'" style="width:80px;height:80px" alt="QR">',
+            'qr_code' => '<img src="'.QrCode::dataUri('ADM-1001').'" style="width:80px;height:80px" alt="QR">',
         ];
     }
 }

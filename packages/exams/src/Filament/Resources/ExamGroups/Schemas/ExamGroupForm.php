@@ -9,6 +9,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Validation\Rules\Unique;
 
 /**
  * Exam-group create/edit form: name, assessment type, description, status.
@@ -28,7 +29,7 @@ class ExamGroupForm
                             ->required()
                             ->maxLength(150)
                             // Matches exam_groups_branch_id_session_id_name_unique.
-                            ->unique(ignoreRecord: true, modifyRuleUsing: fn (\Illuminate\Validation\Rules\Unique $rule) => $rule->where('branch_id', current_branch_id())->where('session_id', current_session_id())->whereNull('deleted_at')),
+                            ->unique(ignoreRecord: true, modifyRuleUsing: fn (Unique $rule) => $rule->where('branch_id', current_branch_id())->where('session_id', current_session_id())->whereNull('deleted_at')),
                         Select::make('type')
                             ->label(__('classivo-exams::ui.exam_type'))
                             ->options(ExamGroup::typeOptions())

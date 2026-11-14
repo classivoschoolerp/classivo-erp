@@ -1,10 +1,11 @@
 <?php
 
+use Classivo\Cms\CmsPlugin;
 use Illuminate\Support\Facades\Route;
 
 // The home page and the public school website come from classivo/cms. Without
 // that package the home page sends visitors to the admin sign-in.
-if (! class_exists(\Classivo\Cms\CmsPlugin::class)) {
+if (! class_exists(CmsPlugin::class)) {
     Route::redirect('/', '/admin');
 }
 

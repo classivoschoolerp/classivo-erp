@@ -5,9 +5,7 @@ namespace Classivo\DemoGuard;
 use Classivo\DemoGuard\Http\Middleware\LimitDemoUploads;
 use Filament\Support\Facades\FilamentView;
 use Filament\View\PanelsRenderHook;
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class DemoGuardServiceProvider extends ServiceProvider

@@ -14,9 +14,13 @@ namespace Classivo\Grading;
 final class Rounding
 {
     public const NONE = 'none';
+
     public const HALF_UP = 'half_up';
+
     public const HALF_EVEN = 'half_even';
+
     public const UP = 'up';
+
     public const DOWN = 'down';
 
     private const MODES = [self::NONE, self::HALF_UP, self::HALF_EVEN, self::UP, self::DOWN];

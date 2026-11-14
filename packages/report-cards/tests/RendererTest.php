@@ -2,7 +2,10 @@
 
 namespace Classivo\ReportCards\Tests;
 
+use Classivo\ReportCards\DTO\IdCardSheet;
+use Classivo\ReportCards\DTO\Institution;
 use Classivo\ReportCards\DTO\MarksheetData;
+use Classivo\ReportCards\DTO\StudentInfo;
 use Classivo\ReportCards\DTO\SubjectResult;
 use Classivo\ReportCards\Renderer\CertificateRenderer;
 use Classivo\ReportCards\Renderer\PdfRenderer;
@@ -89,15 +92,15 @@ class RendererTest extends TestCase
 
     public function test_id_card_colour_cannot_inject_css(): void
     {
-        $sheet = new \Classivo\ReportCards\DTO\IdCardSheet(SampleData::institution(), [], 'red;} body{display:none', '#fff');
+        $sheet = new IdCardSheet(SampleData::institution(), [], 'red;} body{display:none', '#fff');
         $html = app(PdfRenderer::class)->idCardsHtml($sheet);
         $this->assertStringNotContainsString('display:none', $html);
     }
 
     public function test_array_constructors(): void
     {
-        $i = \Classivo\ReportCards\DTO\Institution::fromArray(['name' => 'Demo School']);
-        $s = \Classivo\ReportCards\DTO\StudentInfo::fromArray(['name' => 'Test Student', 'admission_no' => 'A1']);
+        $i = Institution::fromArray(['name' => 'Demo School']);
+        $s = StudentInfo::fromArray(['name' => 'Test Student', 'admission_no' => 'A1']);
         $d = new MarksheetData($i, $s, 'Mid Term', [new SubjectResult('Maths', 100, 33, 70)]);
         $this->assertPdf(app(PdfRenderer::class)->marksheet($d, 'cbse'));
     }

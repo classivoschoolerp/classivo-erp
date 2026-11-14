@@ -2,14 +2,13 @@
 
 namespace Classivo\Exams\Models;
 
-use Classivo\Core\Models\Subject;
-use Classivo\Students\Models\Student;
 use Classivo\Core\Concerns\BelongsToBranch;
 use Classivo\Core\Concerns\BelongsToSession;
 use Classivo\Core\Concerns\BelongsToTenant;
+use Classivo\Core\Models\Subject;
+use Classivo\Students\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /** A student's obtained marks for one exam subject. One row per (exam, student, subject). */

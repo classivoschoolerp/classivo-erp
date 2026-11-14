@@ -8,10 +8,13 @@ use Classivo\DemoGuard\Exceptions\DemoRestricted;
 use Classivo\DemoGuard\Http\Middleware\LimitDemoUploads;
 use Classivo\DemoGuard\Tests\Support\LockedSetting;
 use Classivo\DemoGuard\Tests\TestCase;
+use Filament\Support\Facades\FilamentView;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class DemoGuardTest extends TestCase
 {
@@ -118,7 +121,7 @@ class DemoGuardTest extends TestCase
         try {
             $mw->handle($req, fn () => response('ok'));
             $this->fail('big upload allowed');
-        } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
+        } catch (HttpException $e) {
             $this->assertSame(413, $e->getStatusCode());
         }
         $small = UploadedFile::fake()->create('s.pdf', 100);
@@ -134,7 +137,7 @@ class DemoGuardTest extends TestCase
 
     public function test_banner_hook_is_registered_on_panel_body(): void
     {
-        $hooks = \Filament\Support\Facades\FilamentView::renderHook(\Filament\View\PanelsRenderHook::BODY_START);
+        $hooks = FilamentView::renderHook(PanelsRenderHook::BODY_START);
         $this->assertStringContainsString('resets nightly', (string) $hooks);
     }
 }

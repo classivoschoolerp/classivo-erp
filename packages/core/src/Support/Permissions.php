@@ -2,6 +2,8 @@
 
 namespace Classivo\Core\Support;
 
+use Spatie\Permission\PermissionRegistrar;
+
 /**
  * Permission names and checks for the Classivo admin screens.
  *
@@ -95,8 +97,8 @@ final class Permissions
             $roleModel::query()->where('name', $roleName)->where('guard_name', $guard)->first()?->givePermissionTo($permissions);
         }
 
-        if (class_exists(\Spatie\Permission\PermissionRegistrar::class)) {
-            app(\Spatie\Permission\PermissionRegistrar::class)->forgetCachedPermissions();
+        if (class_exists(PermissionRegistrar::class)) {
+            app(PermissionRegistrar::class)->forgetCachedPermissions();
         }
     }
 }

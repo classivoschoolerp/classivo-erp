@@ -13,8 +13,7 @@ final class WeightedResult
         public readonly float $total,
         public readonly float $max,
         public readonly array $breakdown,
-    ) {
-    }
+    ) {}
 
     public function percentage(): float
     {

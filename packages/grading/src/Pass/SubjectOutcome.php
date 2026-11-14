@@ -16,8 +16,7 @@ final class SubjectOutcome
         public readonly array $failedParts,
         public readonly array $shortfalls,
         public readonly float $graceAwarded = 0.0,
-    ) {
-    }
+    ) {}
 
     /** Total marks this subject is short of a pass. */
     public function shortfall(): float

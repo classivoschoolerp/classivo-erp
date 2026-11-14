@@ -7,9 +7,7 @@ namespace Classivo\Grading\Pass;
 final class StudentOutcome
 {
     /** @param array<string, SubjectOutcome> $subjects */
-    public function __construct(public readonly array $subjects)
-    {
-    }
+    public function __construct(public readonly array $subjects) {}
 
     public function passed(): bool
     {

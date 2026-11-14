@@ -2,15 +2,16 @@
 
 namespace Classivo\Timetable\Filament\Pages;
 
+use BackedEnum;
 use Classivo\Core\Models\ClassSection;
 use Classivo\Core\Models\SchoolClass;
 use Classivo\Core\Models\Section;
 use Classivo\Core\Models\Subject;
+use Classivo\Timetable\Actions\GenerateTimetables;
 use Classivo\Timetable\Exceptions\TimetableConflictException;
 use Classivo\Timetable\Models\Timetable;
 use Classivo\Timetable\Models\TimetablePeriod;
 use Classivo\Timetable\Support\Authorize;
-use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
@@ -41,7 +42,7 @@ use Illuminate\Support\Facades\DB;
  * branch/session, or an overlap within this class-section — surfaced here as a
  * danger notification (the whole save rolls back). [Clear] empties the timetable.
  * To fill every class automatically, see
- * {@see \Classivo\Timetable\Actions\GenerateTimetables}.
+ * {@see GenerateTimetables}.
  *
  * Viewless: renders via the base Page content() schema (no blade template).
  *

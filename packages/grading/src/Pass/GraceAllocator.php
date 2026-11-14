@@ -15,8 +15,7 @@ final class GraceAllocator
     public function __construct(
         private readonly PassRule $defaultRule,
         private readonly GracePolicy $policy = new GracePolicy,
-    ) {
-    }
+    ) {}
 
     /**
      * @param  array<string, SubjectMarks>  $subjects

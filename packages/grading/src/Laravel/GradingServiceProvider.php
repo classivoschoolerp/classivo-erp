@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Classivo\Grading\Laravel;
 
+use Classivo\Grading\Presets\Presets;
 use Classivo\Grading\Schemes\PercentageScheme;
 use Classivo\Grading\Schemes\SchemeRegistry;
-use Classivo\Grading\Presets\Presets;
 use Illuminate\Support\ServiceProvider;
 
 /**

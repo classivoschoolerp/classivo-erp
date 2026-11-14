@@ -5,6 +5,7 @@ namespace Classivo\Pdf\Drivers;
 use Classivo\Pdf\Exceptions\PdfException;
 use Classivo\Pdf\PdfRenderer;
 use Closure;
+use Spatie\Browsershot\Browsershot;
 use Throwable;
 
 class ChromeDriver implements PdfRenderer
@@ -14,13 +15,13 @@ class ChromeDriver implements PdfRenderer
 
     public static function available(): bool
     {
-        return class_exists(\Spatie\Browsershot\Browsershot::class);
+        return class_exists(Browsershot::class);
     }
 
     public function render(string $html, array $options = []): string
     {
         try {
-            $shot = $this->factory ? ($this->factory)($html) : \Spatie\Browsershot\Browsershot::html($html);
+            $shot = $this->factory ? ($this->factory)($html) : Browsershot::html($html);
             $shot->paperSize(...$this->paperMm($options['paper'] ?? 'a4'))
                 ->landscape(($options['orientation'] ?? 'portrait') === 'landscape')
                 ->showBackground()

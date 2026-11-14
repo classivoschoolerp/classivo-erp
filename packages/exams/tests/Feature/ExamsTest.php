@@ -2,6 +2,7 @@
 
 namespace Classivo\Exams\Tests\Feature;
 
+use Classivo\Core\Models\Subject;
 use Classivo\Exams\Events\ExamResultsGenerated;
 use Classivo\Exams\Events\ExamResultsPublished;
 use Classivo\Exams\Events\ExamResultsUnpublished;
@@ -39,7 +40,7 @@ class ExamsTest extends TestCase
 
     private function subject(string $name)
     {
-        return \Classivo\Core\Models\Subject::where('name', $name)->firstOrFail();
+        return Subject::where('name', $name)->firstOrFail();
     }
 
     public function test_tenancy_is_auto_stamped_on_create(): void

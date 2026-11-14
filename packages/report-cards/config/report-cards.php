@@ -1,11 +1,13 @@
 <?php
 
+use Classivo\Core\Models\School;
+
 return [
     /*
     | Load the optional persistence layer (template + issued-certificate models and
     | migrations). Requires classivo/core. The renderer itself never needs it.
     */
-    'persistence' => env('REPORT_CARDS_PERSISTENCE', class_exists(\Classivo\Core\Models\School::class)),
+    'persistence' => env('REPORT_CARDS_PERSISTENCE', class_exists(School::class)),
 
     /* Disk + directory used when storing issued certificate PDFs. */
     'disk' => env('REPORT_CARDS_DISK', 'local'),

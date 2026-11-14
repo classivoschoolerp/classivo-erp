@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\Scenarios;
 
+use Classivo\Library\Exceptions\LibraryException;
+use Classivo\Library\LibraryPlugin;
 use Classivo\Library\Models\Book;
 use Classivo\Library\Models\BookFine;
 use Classivo\Library\Models\BookIssue;
 use Classivo\Library\Models\LibraryMember;
 use Classivo\Library\Services\LibraryService;
-use Classivo\Library\Exceptions\LibraryException;
 use Classivo\Students\Models\Student;
 
 /** A seeded student borrows a book, returns it late and pays a fine. */
@@ -16,7 +17,7 @@ class LibraryScenarioTest extends ScenarioTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->requirePackages(\Classivo\Library\LibraryPlugin::class);
+        $this->requirePackages(LibraryPlugin::class);
     }
 
     public function test_issue_and_late_return_charges_the_fine_and_frees_the_copy(): void

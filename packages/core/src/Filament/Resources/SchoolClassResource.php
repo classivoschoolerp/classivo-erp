@@ -2,8 +2,8 @@
 
 namespace Classivo\Core\Filament\Resources;
 
-use Classivo\Core\Filament\Concerns\AuthorizesWithPermissions;
 use BackedEnum;
+use Classivo\Core\Filament\Concerns\AuthorizesWithPermissions;
 use Classivo\Core\Filament\Resources\Pages\ManageSchoolClasses;
 use Classivo\Core\Models\SchoolClass;
 use Classivo\Core\Models\Section;

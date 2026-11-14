@@ -1,5 +1,11 @@
 <?php
 
+use Classivo\Communication\Models\NotificationSetting;
+use Classivo\Core\Models\School;
+use Classivo\Payments\Models\SchoolPaymentCredential;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+
 return [
     /*
     | null = enabled only when APP_ENV=demo. Set true/false to force.
@@ -36,16 +42,16 @@ return [
     ],
 
     'role_models' => [
-        \Spatie\Permission\Models\Role::class,
-        \Spatie\Permission\Models\Permission::class,
+        Role::class,
+        Permission::class,
     ],
 
     'locked_models' => [
         // payment credentials: no create / update / delete
-        \Classivo\Payments\Models\SchoolPaymentCredential::class,
+        SchoolPaymentCredential::class,
         // mail / SMS / WhatsApp switches
-        \Classivo\Communication\Models\NotificationSetting::class,
+        NotificationSetting::class,
         // core school settings
-        \Classivo\Core\Models\School::class,
+        School::class,
     ],
 ];

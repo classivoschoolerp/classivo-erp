@@ -2,6 +2,7 @@
 
 namespace Classivo\Students\Services;
 
+use Carbon\CarbonImmutable;
 use Classivo\Core\Models\Branch;
 use Classivo\Core\Models\ClassSection;
 use Classivo\Core\Tenancy\Scopes\SessionScope;
@@ -10,7 +11,8 @@ use Classivo\Students\Models\Attendance;
 use Classivo\Students\Models\Student;
 use Classivo\Students\Models\StudentSessionRecord;
 use Classivo\Students\Models\SubjectAttendance;
-use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 
 /**
@@ -179,7 +181,7 @@ class AttendanceService
      *
      * @param  array<string, mixed>  $values
      */
-    private function upsert(\Illuminate\Database\Eloquent\Builder $query, \Illuminate\Database\Eloquent\Model $new, array $values): void
+    private function upsert(Builder $query, Model $new, array $values): void
     {
         $model = $query->first() ?? $new;
         $model->forceFill($values)->save();

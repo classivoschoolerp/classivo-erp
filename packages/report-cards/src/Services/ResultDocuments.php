@@ -9,8 +9,9 @@ use Classivo\Exams\Models\Mark;
 use Classivo\ReportCards\Adapters\ClassivoAdapter;
 use Classivo\ReportCards\DTO\MarksheetData;
 use Classivo\ReportCards\Renderer\PdfRenderer;
-use Classivo\Students\Models\Student;
 use Classivo\ReportCards\Support\Css;
+use Classivo\Students\Models\Student;
+use Illuminate\Support\Collection;
 use ZipArchive;
 
 /** Builds marksheet / tabulation documents from classivo/exams data. */
@@ -89,7 +90,7 @@ final class ResultDocuments
         ]);
     }
 
-    /** @return \Illuminate\Support\Collection<int, ExamResult> */
+    /** @return Collection<int, ExamResult> */
     private function results(Exam $exam, ClassSection $classSection)
     {
         return ExamResult::query()->where('exam_id', $exam->id)->where('class_section_id', $classSection->id)

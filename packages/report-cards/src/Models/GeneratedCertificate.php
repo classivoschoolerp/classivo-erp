@@ -5,6 +5,7 @@ namespace Classivo\ReportCards\Models;
 use Classivo\Core\Concerns\BelongsToBranch;
 use Classivo\Core\Concerns\BelongsToTenant;
 use Classivo\ReportCards\Models\Concerns\HasNumberSeries;
+use Classivo\Students\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -37,9 +38,9 @@ class GeneratedCertificate extends Model
         return (string) ($this->data['html'] ?? '');
     }
 
-    public function student(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function student(): BelongsTo
     {
-        return $this->belongsTo(\Classivo\Students\Models\Student::class);
+        return $this->belongsTo(Student::class);
     }
 
     public static function nextNumber(?int $schoolId = null): string

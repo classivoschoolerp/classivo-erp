@@ -2,11 +2,14 @@
 
 namespace Tests\Feature;
 
+use Classivo\Cms\CmsPlugin;
+use Classivo\Core\Models\SchoolClass;
+use Classivo\FrontOffice\FrontOfficePlugin;
 use Classivo\FrontOffice\Models\ContactEnquiry;
 use Classivo\FrontOffice\Models\Invitee;
 use Classivo\FrontOffice\Models\OnlineAdmission;
-use Classivo\Core\Models\SchoolClass;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Tests\TestCase;
 
 /**
@@ -20,7 +23,7 @@ class PublicPagesTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->requirePackages(\Classivo\FrontOffice\FrontOfficePlugin::class, \Classivo\Cms\CmsPlugin::class);
+        $this->requirePackages(FrontOfficePlugin::class, CmsPlugin::class);
     }
 
     public function test_online_admission_apply_and_status(): void
@@ -89,9 +92,9 @@ class PublicPagesTest extends TestCase
             '/admission' => 'classivo-front-office.admission',
             '/contact-us' => 'classivo-front-office.contact',
         ] as $uri => $name) {
-            $this->assertSame($name, $routes->match(\Illuminate\Http\Request::create($uri))->getName(), $uri);
+            $this->assertSame($name, $routes->match(Request::create($uri))->getName(), $uri);
         }
 
-        $this->assertSame('cms.page', $routes->match(\Illuminate\Http\Request::create('/some-page'))->getName());
+        $this->assertSame('cms.page', $routes->match(Request::create('/some-page'))->getName());
     }
 }

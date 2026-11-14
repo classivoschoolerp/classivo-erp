@@ -2,6 +2,7 @@
 
 namespace Classivo\Exams\Filament\Resources\Grades;
 
+use BackedEnum;
 use Classivo\Core\Filament\Concerns\AuthorizesWithPermissions;
 use Classivo\Exams\Filament\Resources\Grades\Pages\CreateGrade;
 use Classivo\Exams\Filament\Resources\Grades\Pages\EditGrade;
@@ -9,14 +10,12 @@ use Classivo\Exams\Filament\Resources\Grades\Pages\ListGrades;
 use Classivo\Exams\Filament\Resources\Grades\Schemas\GradeForm;
 use Classivo\Exams\Filament\Resources\Grades\Tables\GradesTable;
 use Classivo\Exams\Models\Grade;
-use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
-use UnitEnum;
 
 /**
  * GradeResource. The grading-scale bands

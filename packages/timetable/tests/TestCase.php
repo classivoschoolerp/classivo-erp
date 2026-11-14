@@ -2,6 +2,8 @@
 
 namespace Classivo\Timetable\Tests;
 
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
 use Classivo\Core\CoreServiceProvider;
 use Classivo\Core\Models\AcademicSession;
 use Classivo\Core\Models\Branch;
@@ -13,9 +15,21 @@ use Classivo\Core\Models\Subject;
 use Classivo\Timetable\Tests\Support\TestPanelProvider;
 use Classivo\Timetable\Tests\Support\User;
 use Classivo\Timetable\TimetableServiceProvider;
+use Filament\Actions\ActionsServiceProvider;
+use Filament\FilamentServiceProvider;
+use Filament\Forms\FormsServiceProvider;
+use Filament\Infolists\InfolistsServiceProvider;
+use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Schemas\SchemasServiceProvider;
+use Filament\Support\SupportServiceProvider;
+use Filament\Tables\TablesServiceProvider;
+use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\PermissionServiceProvider;
 
 abstract class TestCase extends Orchestra
 {
@@ -30,21 +44,21 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            \Livewire\LivewireServiceProvider::class,
-            \BladeUI\Icons\BladeIconsServiceProvider::class,
-            \BladeUI\Heroicons\BladeHeroiconsServiceProvider::class,
-            \Filament\Support\SupportServiceProvider::class,
-            \Filament\Actions\ActionsServiceProvider::class,
-            \Filament\Forms\FormsServiceProvider::class,
-            \Filament\Infolists\InfolistsServiceProvider::class,
-            \Filament\Notifications\NotificationsServiceProvider::class,
-            \Filament\Schemas\SchemasServiceProvider::class,
-            \Filament\Tables\TablesServiceProvider::class,
-            \Filament\Widgets\WidgetsServiceProvider::class,
-            \Filament\FilamentServiceProvider::class,
+            LivewireServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
+            SupportServiceProvider::class,
+            ActionsServiceProvider::class,
+            FormsServiceProvider::class,
+            InfolistsServiceProvider::class,
+            NotificationsServiceProvider::class,
+            SchemasServiceProvider::class,
+            TablesServiceProvider::class,
+            WidgetsServiceProvider::class,
+            FilamentServiceProvider::class,
             CoreServiceProvider::class,
             TimetableServiceProvider::class,
-            \Spatie\Permission\PermissionServiceProvider::class,
+            PermissionServiceProvider::class,
             TestPanelProvider::class,
         ];
     }
@@ -73,7 +87,7 @@ abstract class TestCase extends Orchestra
         }
 
         if (! Schema::hasTable('permissions')) {
-            $migration = require dirname((new \ReflectionClass(\Spatie\Permission\PermissionServiceProvider::class))->getFileName(), 2).'/database/migrations/create_permission_tables.php.stub';
+            $migration = require dirname((new \ReflectionClass(PermissionServiceProvider::class))->getFileName(), 2).'/database/migrations/create_permission_tables.php.stub';
             $migration->up();
         }
     }
@@ -83,7 +97,7 @@ abstract class TestCase extends Orchestra
     {
         $user = $this->teacher('Staff '.uniqid());
         foreach ($permissions as $name) {
-            \Spatie\Permission\Models\Permission::findOrCreate($name, 'web');
+            Permission::findOrCreate($name, 'web');
             $user->givePermissionTo($name);
         }
         $this->actingAs($user);

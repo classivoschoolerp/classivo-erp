@@ -5,9 +5,11 @@ namespace Classivo\Timetable\Tests\Feature;
 use Classivo\Timetable\Filament\Pages\ClassTimetable;
 use Classivo\Timetable\Models\Timetable;
 use Classivo\Timetable\Models\TimetablePeriod;
+use Classivo\Timetable\Tests\Support\User;
 use Classivo\Timetable\Tests\TestCase;
 use Filament\Facades\Filament;
 use Livewire\Livewire;
+use Spatie\Permission\Models\Role;
 
 class ClassTimetablePageTest extends TestCase
 {
@@ -21,9 +23,9 @@ class ClassTimetablePageTest extends TestCase
     }
 
     /** Teacher picker lists users with a configured teacher role. */
-    private function roleTeacher(string $name): \Classivo\Timetable\Tests\Support\User
+    private function roleTeacher(string $name): User
     {
-        \Spatie\Permission\Models\Role::findOrCreate('Teacher', 'web');
+        Role::findOrCreate('Teacher', 'web');
 
         return $this->teacher($name)->assignRole('Teacher');
     }

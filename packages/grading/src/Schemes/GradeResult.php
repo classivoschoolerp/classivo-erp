@@ -15,8 +15,7 @@ final class GradeResult
         public readonly float $roundedPercentage,
         public readonly ?Band $band,
         public readonly bool $passed,
-    ) {
-    }
+    ) {}
 
     public function label(): ?string
     {

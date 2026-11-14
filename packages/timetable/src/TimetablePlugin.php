@@ -5,8 +5,8 @@ namespace Classivo\Timetable;
 use Classivo\Timetable\Filament\Pages\ClassTimetable;
 use Classivo\Timetable\Filament\Pages\GenerateTimetable;
 use Classivo\Timetable\Filament\Pages\TeacherSubstitution;
-use Classivo\Timetable\Filament\Resources\Substitutions\SubstitutionResource;
 use Classivo\Timetable\Filament\Pages\TimetableRequirements;
+use Classivo\Timetable\Filament\Resources\Substitutions\SubstitutionResource;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 

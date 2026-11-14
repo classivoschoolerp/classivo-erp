@@ -7,6 +7,7 @@ use Classivo\Core\Models\ClassSubject;
 use Classivo\Core\Models\ClassTeacher;
 use Classivo\Core\Models\Subject;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
@@ -111,7 +112,7 @@ final class MarksScope
         return array_values(array_unique(array_map('intval', $ids)));
     }
 
-    private static function timetableQuery(int|string $userId): ?\Illuminate\Database\Query\Builder
+    private static function timetableQuery(int|string $userId): ?Builder
     {
         if (! Schema::hasTable('timetable_periods') || ! Schema::hasTable('timetables')) {
             return null;

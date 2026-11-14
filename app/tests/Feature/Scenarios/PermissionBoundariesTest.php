@@ -12,6 +12,11 @@ use Classivo\Exams\Models\Mark;
 use Classivo\Exams\Services\ExamMarksService;
 use Classivo\Exams\Services\ExamResultService;
 use Classivo\Exams\Support\Authorize;
+use Classivo\OnlineExams\OnlineExamsPlugin;
+use Classivo\Students\Models\Student;
+use Classivo\Students\Models\StudentSessionRecord;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Validation\ValidationException;
 use Livewire\Livewire;
 
 /**
@@ -51,7 +56,7 @@ class PermissionBoundariesTest extends ScenarioTestCase
         Livewire::test(ExamResults::class)->assertForbidden(); // results screen is not a teacher screen
         $this->assertFalse($exam->fresh()->is_published, 'a teacher cannot publish results');
 
-        $student = \Classivo\Students\Models\Student::firstOrFail();
+        $student = Student::firstOrFail();
         $this->get(route('report-cards.marksheet', ['exam' => $exam->id, 'student' => $student->id]))->assertForbidden();
     }
 
@@ -67,7 +72,7 @@ class PermissionBoundariesTest extends ScenarioTestCase
         }
 
         $this->login('admin@example.com');
-        $this->expectException(\Illuminate\Validation\ValidationException::class);
+        $this->expectException(ValidationException::class);
         app(ExamMarksService::class)->save($exam, $cs, $eng, [['student_id' => 1, 'marks_obtained' => 51]]);
     }
 
@@ -81,12 +86,12 @@ class PermissionBoundariesTest extends ScenarioTestCase
         $this->login('other.teacher@example.com');
         $this->assertTrue(Authorize::can('enter_marks'));
 
-        $student = \Classivo\Students\Models\StudentSessionRecord::where('class_section_id', $cs->id)->value('student_id');
+        $student = StudentSessionRecord::where('class_section_id', $cs->id)->value('student_id');
 
         try {
             app(ExamMarksService::class)->save($exam, $cs, $eng, [['student_id' => $student, 'marks_obtained' => 30]], $other->id);
             $this->fail('A teacher outside the class must be refused.');
-        } catch (\Illuminate\Auth\Access\AuthorizationException) {
+        } catch (AuthorizationException) {
         }
 
         Livewire::test(MarksRegister::class)
@@ -114,7 +119,7 @@ class PermissionBoundariesTest extends ScenarioTestCase
         $this->bootDemo();
         $this->get('/admin/students')->assertRedirect('/admin/login');
         $this->get(route('report-cards.tabulation', ['exam' => 1, 'classSection' => 1]))->assertRedirect();
-        if (class_exists(\Classivo\OnlineExams\OnlineExamsPlugin::class)) {
+        if (class_exists(OnlineExamsPlugin::class)) {
             $this->get('/student/online-exams')->assertRedirect();
         }
     }

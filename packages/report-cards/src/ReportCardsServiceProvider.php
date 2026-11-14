@@ -3,6 +3,8 @@
 namespace Classivo\ReportCards;
 
 use Barryvdh\DomPDF\ServiceProvider as DompdfServiceProvider;
+use Classivo\Exams\Contracts\ResultDocumentLinks;
+use Classivo\Exams\Models\Exam;
 use Classivo\ReportCards\Renderer\CertificateRenderer;
 use Classivo\ReportCards\Renderer\PdfRenderer;
 use Illuminate\Support\ServiceProvider;
@@ -16,8 +18,8 @@ class ReportCardsServiceProvider extends ServiceProvider
         $this->app->singleton(CertificateRenderer::class);
         $this->app->singleton(PdfRenderer::class);
 
-        if (interface_exists(\Classivo\Exams\Contracts\ResultDocumentLinks::class)) {
-            $this->app->bind(\Classivo\Exams\Contracts\ResultDocumentLinks::class, Adapters\ResultLinks::class);
+        if (interface_exists(ResultDocumentLinks::class)) {
+            $this->app->bind(ResultDocumentLinks::class, Adapters\ResultLinks::class);
         }
     }
 
@@ -26,7 +28,7 @@ class ReportCardsServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'report-cards');
         $this->loadTranslationsFrom(__DIR__.'/../lang', 'report-cards');
 
-        if (class_exists(\Classivo\Exams\Models\Exam::class)) {
+        if (class_exists(Exam::class)) {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         }
 

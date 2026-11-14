@@ -8,7 +8,9 @@ use Classivo\Students\Models\Attendance;
 use Classivo\Students\Models\Student;
 use Classivo\Students\Models\SubjectAttendance;
 use Classivo\Students\Services\AttendanceService;
+use Classivo\Students\Services\StudentAdmissionService;
 use Classivo\Students\Tests\TestCase;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Event;
 
 /**
@@ -18,7 +20,7 @@ use Illuminate\Support\Facades\Event;
  */
 class AttendanceTest extends TestCase
 {
-    private function roster(int $n = 3): \Illuminate\Support\Collection
+    private function roster(int $n = 3): Collection
     {
         foreach (range(1, $n) as $i) {
             $this->admit(['first_name' => 'Kid'.$i]);
@@ -65,7 +67,7 @@ class AttendanceTest extends TestCase
         $this->bootFoundation();
         $mine = $this->admit(['first_name' => 'Mine']);
         $otherSection = $this->classSectionFor($this->session->id, 'Grade 2', 2, 'B');
-        $other = app(\Classivo\Students\Services\StudentAdmissionService::class)->admit([
+        $other = app(StudentAdmissionService::class)->admit([
             'class_id' => $otherSection->class_id, 'section_id' => $otherSection->section_id,
             'first_name' => 'Other', 'last_name' => 'Kid', 'gender' => 'female', 'date_of_birth' => '2018-02-02',
         ]);

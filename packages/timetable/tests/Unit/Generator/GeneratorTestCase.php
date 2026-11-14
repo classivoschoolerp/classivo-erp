@@ -6,6 +6,7 @@ use Classivo\Timetable\Generator\Lesson;
 use Classivo\Timetable\Generator\Options;
 use Classivo\Timetable\Generator\Problem;
 use Classivo\Timetable\Generator\Result;
+use Classivo\Timetable\Generator\Room;
 use Classivo\Timetable\Generator\Slot;
 use Classivo\Timetable\Generator\TimetableGenerator;
 use PHPUnit\Framework\TestCase;
@@ -159,7 +160,7 @@ abstract class GeneratorTestCase extends TestCase
                 'T-SKT' => [[1, 1], [1, 2], [3, 1], [3, 2]],      // arrives late Mon/Wed
                 'T-LIB' => [[2, 8], [4, 8]],
             ],
-            rooms: [new \Classivo\Timetable\Generator\Room('LAB-1', 'lab'), new \Classivo\Timetable\Generator\Room('COMP-1', 'computer')],
+            rooms: [new Room('LAB-1', 'lab'), new Room('COMP-1', 'computer')],
             maxConsecutive: 4,
         );
     }

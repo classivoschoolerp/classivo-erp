@@ -2,14 +2,28 @@
 
 namespace Classivo\DemoGuard\Tests;
 
+use BladeUI\Heroicons\BladeHeroiconsServiceProvider;
+use BladeUI\Icons\BladeIconsServiceProvider;
 use Classivo\Core\CoreServiceProvider;
 use Classivo\Core\Models\School;
 use Classivo\DemoGuard\DemoGuardServiceProvider;
+use Classivo\DemoGuard\Tests\Support\LockedSetting;
 use Classivo\DemoGuard\Tests\Support\User;
+use Filament\Actions\ActionsServiceProvider;
+use Filament\FilamentServiceProvider;
+use Filament\Forms\FormsServiceProvider;
+use Filament\Infolists\InfolistsServiceProvider;
+use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Schemas\SchemasServiceProvider;
+use Filament\Support\SupportServiceProvider;
+use Filament\Tables\TablesServiceProvider;
+use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\Attributes\WithMigration;
 use Orchestra\Testbench\TestCase as Orchestra;
+use Spatie\Permission\PermissionServiceProvider;
 
 #[WithMigration]
 abstract class TestCase extends Orchestra
@@ -22,19 +36,19 @@ abstract class TestCase extends Orchestra
         $payments = class_exists('Classivo\\Payments\\PaymentsServiceProvider') ? ['Classivo\\Payments\\PaymentsServiceProvider'] : [];
 
         return [
-            \Livewire\LivewireServiceProvider::class,
-            \BladeUI\Icons\BladeIconsServiceProvider::class,
-            \BladeUI\Heroicons\BladeHeroiconsServiceProvider::class,
-            \Filament\Support\SupportServiceProvider::class,
-            \Filament\Actions\ActionsServiceProvider::class,
-            \Filament\Forms\FormsServiceProvider::class,
-            \Filament\Infolists\InfolistsServiceProvider::class,
-            \Filament\Notifications\NotificationsServiceProvider::class,
-            \Filament\Schemas\SchemasServiceProvider::class,
-            \Filament\Tables\TablesServiceProvider::class,
-            \Filament\Widgets\WidgetsServiceProvider::class,
-            \Filament\FilamentServiceProvider::class,
-            \Spatie\Permission\PermissionServiceProvider::class,
+            LivewireServiceProvider::class,
+            BladeIconsServiceProvider::class,
+            BladeHeroiconsServiceProvider::class,
+            SupportServiceProvider::class,
+            ActionsServiceProvider::class,
+            FormsServiceProvider::class,
+            InfolistsServiceProvider::class,
+            NotificationsServiceProvider::class,
+            SchemasServiceProvider::class,
+            TablesServiceProvider::class,
+            WidgetsServiceProvider::class,
+            FilamentServiceProvider::class,
+            PermissionServiceProvider::class,
             CoreServiceProvider::class,
             ...$payments,
             DemoGuardServiceProvider::class,
@@ -54,14 +68,14 @@ abstract class TestCase extends Orchestra
         // a stand-in for any optional package's settings model
         $app['config']->set('demo-guard.locked_models', array_merge(
             (array) $app['config']->get('demo-guard.locked_models', []),
-            [\Classivo\DemoGuard\Tests\Support\LockedSetting::class],
+            [LockedSetting::class],
         ));
     }
 
     protected function defineDatabaseMigrations(): void
     {
         if (! Schema::hasTable('permissions')) {
-            $m = require dirname((new \ReflectionClass(\Spatie\Permission\PermissionServiceProvider::class))->getFileName(), 2).'/database/migrations/create_permission_tables.php.stub';
+            $m = require dirname((new \ReflectionClass(PermissionServiceProvider::class))->getFileName(), 2).'/database/migrations/create_permission_tables.php.stub';
             $m->up();
         }
 

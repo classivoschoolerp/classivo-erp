@@ -20,10 +20,15 @@ use Classivo\Grading\InvalidConfiguration;
 final class Reduction
 {
     public const AVERAGE = 'average';
+
     public const BEST_N_AVERAGE = 'best_n_average';
+
     public const BEST_N_SUM = 'best_n_sum';
+
     public const SUM = 'sum';
+
     public const BEST = 'best';
+
     public const LATEST = 'latest';
 
     private const MODES = [self::AVERAGE, self::BEST_N_AVERAGE, self::BEST_N_SUM, self::SUM, self::BEST, self::LATEST];

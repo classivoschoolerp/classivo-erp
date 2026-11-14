@@ -2,17 +2,17 @@
 
 namespace Classivo\Exams\Filament\Pages;
 
-use Classivo\Exams\Support\ExamsPermissions;
-use Classivo\Exams\Support\MarksScope;
-use Illuminate\Auth\Access\AuthorizationException;
+use BackedEnum;
 use Classivo\Core\Models\ClassSection;
+use Classivo\Core\Models\Subject;
 use Classivo\Exams\Models\Exam;
 use Classivo\Exams\Models\ExamSchedule;
 use Classivo\Exams\Models\Mark;
-use Classivo\Core\Models\Subject;
 use Classivo\Exams\Services\ExamMarksService;
 use Classivo\Exams\Services\ExamResultService;
-use BackedEnum;
+use Classivo\Exams\Support\Authorize;
+use Classivo\Exams\Support\ExamsPermissions;
+use Classivo\Exams\Support\MarksScope;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Repeater;
@@ -29,8 +29,8 @@ use Filament\Schemas\Components\Section as FormSection;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Validation\ValidationException;
-use UnitEnum;
 
 /**
  * Marks Register / Marks Entry — a custom page.
@@ -71,7 +71,7 @@ class MarksRegister extends Page
 
     public static function canAccess(): bool
     {
-        return ExamsPermissions::can(ExamsPermissions::MARKS_VIEW) || \Classivo\Exams\Support\Authorize::can('enter_marks');
+        return ExamsPermissions::can(ExamsPermissions::MARKS_VIEW) || Authorize::can('enter_marks');
     }
 
     public function mount(): void
@@ -198,7 +198,7 @@ class MarksRegister extends Page
     /** Persist the register via the marks service (gated by `exam.enter_marks`). */
     public function save(): void
     {
-        if (! \Classivo\Exams\Support\Authorize::can('enter_marks')) {
+        if (! Authorize::can('enter_marks')) {
             Notification::make()->danger()->title(__('classivo-exams::ui.you_are_not_allowed_to_enter_marks'))->send();
 
             return;

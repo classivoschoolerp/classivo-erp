@@ -5,6 +5,7 @@ namespace Tests\Feature\Scenarios;
 use App\Models\User;
 use Classivo\OnlineExams\Models\OnlineExam;
 use Classivo\OnlineExams\Models\QuestionBank;
+use Classivo\OnlineExams\OnlineExamsPlugin;
 use Classivo\OnlineExams\Services\OnlineExamService;
 use Classivo\Students\Models\Guardian;
 use Classivo\Students\Models\Student;
@@ -20,7 +21,7 @@ class PortalsTest extends ScenarioTestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->requirePackages(\Classivo\OnlineExams\OnlineExamsPlugin::class);
+        $this->requirePackages(OnlineExamsPlugin::class);
     }
 
     private function exam(): OnlineExam
@@ -110,12 +111,12 @@ class PortalsTest extends ScenarioTestCase
             $this->get($url)->assertStatus($status, "$email must not open $url");
         }
 
-        foreach ([["admin@example.com", "/admin"], ["student@example.com", "/student"], ["parent@example.com", "/parent"]] as [$email, $url]) {
+        foreach ([['admin@example.com', '/admin'], ['student@example.com', '/student'], ['parent@example.com', '/parent']] as [$email, $url]) {
             $this->login($email);
             $response = $this->get($url);
             $this->assertContains($response->getStatusCode(), [200, 302], "$email should open $url");
             if ($response->isRedirection()) {
-                $this->assertStringNotContainsString("/login", (string) $response->headers->get("Location"), "$email was bounced to login from $url");
+                $this->assertStringNotContainsString('/login', (string) $response->headers->get('Location'), "$email was bounced to login from $url");
             }
         }
     }

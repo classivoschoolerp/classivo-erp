@@ -13,6 +13,7 @@ use Classivo\Core\Models\SchoolClass;
 use Classivo\Core\Models\Section;
 use Classivo\Core\Models\Subject;
 use Classivo\Exams\ExamsServiceProvider;
+use Classivo\Pdf\PdfServiceProvider;
 use Classivo\ReportCards\ReportCardsServiceProvider;
 use Classivo\ReportCards\Tests\Support\StubUser;
 use Classivo\ReportCards\Tests\Support\TestPanelProvider;
@@ -42,7 +43,7 @@ abstract class UiTestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            \Classivo\Pdf\PdfServiceProvider::class, LivewireServiceProvider::class, BladeIconsServiceProvider::class, BladeHeroiconsServiceProvider::class,
+            PdfServiceProvider::class, LivewireServiceProvider::class, BladeIconsServiceProvider::class, BladeHeroiconsServiceProvider::class,
             SupportServiceProvider::class, ActionsServiceProvider::class, FormsServiceProvider::class,
             InfolistsServiceProvider::class, SchemasServiceProvider::class, TablesServiceProvider::class,
             NotificationsServiceProvider::class, WidgetsServiceProvider::class, FilamentServiceProvider::class,
