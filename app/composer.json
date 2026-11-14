@@ -17,7 +17,7 @@
         "filament/filament": "^4.0",
         "classivo/core": "*",
         "classivo/students": "*",
-        "spatie/laravel-permission": "^6.0",
+        "spatie/laravel-permission": "^8.5",
         "classivo/exams": "*",
         "classivo/report-cards": "*",
         "classivo/grading": "*",
