@@ -60,22 +60,26 @@ out=$(tr '\0' '\n' < "$LIST" | grep -vE '(^|/)(vendor|node_modules)/' | grep -E 
 out=$(tr '\0' '\n' < "$LIST" | grep -vE '(^|/)(vendor|node_modules)/' | grep -E '(\.pem|\.p8|\.keystore|\.jks)$|(^|/)id_rsa')
 [ -n "$out" ] && { hit "key/cert files present"; echo "$out"; }
 
-# 6. git metadata (all refs)
+# 6. git metadata. Release mode (STRICT_AUTHOR set) checks all refs and every author email;
+#    contributor mode (CI) checks the current branch only and allows any author/sign-off email.
 if git rev-parse --git-dir >/dev/null 2>&1 && git rev-parse HEAD >/dev/null 2>&1; then
-  meta=$(git log --all --format='A:%an <%ae>%nC:%cn <%ce>%nM:%B%nT:%D' 2>/dev/null)
+  REFS=HEAD; [ -n "$STRICT_AUTHOR" ] && REFS=--all
+  meta=$(git log $REFS --format='A:%an <%ae>%nC:%cn <%ce>%nM:%B%nT:%D' 2>/dev/null)
   out=$(echo "$meta" | grep -iE "$BAD|$KEYS") && { hit "forbidden terms in commit metadata"; echo "$out" | head -20; }
   out=$(echo "$meta" | grep -iE "$AI") && { hit "blocked terms (list B) in commit metadata"; echo "$out" | head -20; }
+  if [ -n "$STRICT_AUTHOR" ]; then
   out=$(echo "$meta" | grep -E '^[AC]:' | grep -oE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' | grep -viE "$OKMAIL" | sort -u)
   [ -n "$out" ] && { hit "disallowed emails in author/committer"; echo "$out"; }
   out=$(echo "$meta" | grep -E '^M:' | grep -oE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' | grep -viE "$OKMAIL" | sort -u)
   [ -n "$out" ] && { hit "disallowed emails in commit messages"; echo "$out"; }
+  fi
   out=$(echo "$meta" | grep -E "$NAME_CS") && { hit "blocked name in commit metadata"; echo "$out" | head; }
   if [ -n "$STRICT_AUTHOR" ]; then
     out=$(echo "$meta" | grep -E '^[AC]:' | grep -vE "^[AC]:$STRICT_AUTHOR\$" | sort -u)
     [ -n "$out" ] && { hit "author/committer is not the release identity"; echo "$out"; }
   fi
   # history: forbidden content in any past revision (keys in old commits)
-  out=$(git grep -niEI "$BAD|$KEYS|$AI" $(git rev-list --all) -- . ':!vendor' ':!node_modules' ':!scripts/prepublish-scan.sh' 2>/dev/null | head -20)
+  out=$(git grep -niEI "$BAD|$KEYS|$AI" $(git rev-list $REFS) -- . ':!vendor' ':!node_modules' ':!scripts/prepublish-scan.sh' 2>/dev/null | head -20)
   [ -n "$out" ] && { hit "forbidden content in git history"; echo "$out"; }
 fi
 
