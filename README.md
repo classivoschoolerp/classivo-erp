@@ -31,7 +31,7 @@ More modules are released in stages over the coming weeks: hr, fees, library, tr
 ## Quick start with Docker
 
 ```bash
-git clone <repository-url> classivo-erp
+git clone https://github.com/classivoschoolerp/classivo-erp.git classivo-erp
 cd classivo-erp
 docker compose up
 ```
