@@ -18,5 +18,8 @@ What Classivo ERP can do, grouped the way a school runs. Each line links to the 
 - Grading schemes (CBSE, ICSE/ISC, state boards): [grading](/packages/grading)
 - Report cards, marksheets, certificates, ID cards, transfer certificates as PDF: [report-cards](/packages/report-cards)
 
+## Staff
+- Staff, departments, attendance, leave, salary structures, payroll with an India preset: [hr](/packages/hr)
+
 ## Not in this repository
 Mobile apps, push notifications and the multi-school hosted layer. See the [overview](/).

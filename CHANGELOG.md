@@ -2,6 +2,11 @@
 
 All notable changes to Classivo ERP are listed here.
 
+## v1.1.0 - 2026-11-21
+
+- Staff, departments, leave, staff attendance and payroll
+- Package: `classivo/hr`
+
 ## v1.0.0 - 2026-11-14
 
 - First public release: students, attendance, exams, report cards, grading, timetable

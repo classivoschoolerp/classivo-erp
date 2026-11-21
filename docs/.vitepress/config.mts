@@ -4,6 +4,7 @@ const pkgs = [
   'core',
   'exams',
   'grading',
+  'hr',
   'report-cards',
   'students',
   'timetable',

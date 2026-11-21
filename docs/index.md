@@ -12,6 +12,7 @@ Classivo ERP is a school management kit built with Laravel and Filament. It is s
 | [report-cards](/packages/report-cards) | Marksheet / report card PDFs |
 | [timetable](/packages/timetable) | Class timetable |
 | [grading](/packages/grading) | Grading schemes (CBSE-style preset) |
+| [hr](/packages/hr) | Staff records |
 
 Defaults are country-neutral. An India preset (CBSE grading, Hindi and English, INR, April to March year) is on by default and can be switched off.
 

@@ -22,6 +22,7 @@
         "classivo/report-cards": "*",
         "classivo/grading": "*",
         "classivo/timetable": "*",
+        "classivo/hr": "*",
         "classivo/pdf": "*",
         "classivo/demo-guard": "*"
     },
@@ -147,6 +148,13 @@
         {
             "type": "path",
             "url": "../packages/timetable",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../packages/hr",
             "options": {
                 "symlink": true
             }
