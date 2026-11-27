@@ -24,6 +24,7 @@
         "classivo/timetable": "*",
         "classivo/hr": "*",
         "classivo/pdf": "*",
+        "classivo/fees": "*",
         "classivo/demo-guard": "*"
     },
     "require-dev": {
@@ -162,6 +163,13 @@
         {
             "type": "path",
             "url": "../packages/pdf",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "../packages/fees",
             "options": {
                 "symlink": true
             }

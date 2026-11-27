@@ -2,6 +2,11 @@
 
 All notable changes to Classivo ERP are listed here.
 
+## v1.2.0 - 2026-11-27
+
+- Fee structures, counter collection, receipts, concessions, refunds, reminders
+- Package: `classivo/fees`
+
 ## v1.1.0 - 2026-11-21
 
 - Staff, departments, leave, staff attendance and payroll

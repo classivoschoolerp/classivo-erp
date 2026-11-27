@@ -23,11 +23,12 @@ A complete school management kit built with Laravel and Filament, as MIT-license
 | `packages/pdf` | `classivo/pdf` | Small HTML-to-PDF contract for Laravel with a dompdf driver and an optional Chrome driver (spatie/browsershot) for scripts dompdf cannot shape, such as Devanagari. |
 | `packages/demo-guard` | `classivo/demo-guard` | Safeguards for a public Classivo ERP demo: blocks destructive edits, caps uploads and shows a nightly-reset banner. Active only when APP_ENV=demo. |
 | `packages/hr` | `classivo/hr` | Classivo ERP HR & payroll: staff, departments, attendance, leave, salary structures, payroll engine and an India statutory preset (PF/ESI/PT/TDS) over a country-neutral core. |
+| `packages/fees` | `classivo/fees` | Classivo ERP fees: fee heads, groups and masters, allocation, concessions, late fines, manual receipts (cash/cheque/bank transfer), refunds with credit notes, carry-forward, session rollover, defaulters and e-mail reminders. No payment gateway and no accounting: money movements are announced as events. |
 | `app` | `classivo/demo` | A Laravel 12 + Filament 4 demo app that uses the packages through Composer path repositories, with a demo seeder and English + Hindi UI. |
 
 ### Coming soon
 
-More modules are released in stages over the coming weeks: fees, library, transport, front-office, hostel, online-exams, communication, payments, finance, student-life, lms, skill-programs, academics-extras, inventory, cms, udise, platform, security, documents, reports.
+More modules are released in stages over the coming weeks: library, transport, front-office, hostel, online-exams, communication, payments, finance, student-life, lms, skill-programs, academics-extras, inventory, cms, udise, platform, security, documents, reports.
 
 ## Quick start with Docker
 

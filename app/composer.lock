@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9edd657fec39ce98b1ccfd43a955525b",
+    "content-hash": "39b6d77cff8887082ee706debd59441a",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -793,6 +793,77 @@
                 "filament",
                 "laravel",
                 "marks",
+                "school"
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "classivo/fees",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../packages/fees",
+                "reference": "b2951b83a8bc648e4db8381043600480903febad"
+            },
+            "require": {
+                "barryvdh/laravel-dompdf": "^3.0",
+                "classivo/core": "*@dev",
+                "classivo/students": "*",
+                "filament/filament": "^4.0",
+                "illuminate/database": "^12.0",
+                "illuminate/support": "^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^10.0",
+                "phpunit/phpunit": "^11.5",
+                "spatie/laravel-permission": "^6.0"
+            },
+            "suggest": {
+                "spatie/laravel-permission": "Grant the fees.* permissions to roles (see FeesPermissionSeeder)."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Classivo\\Fees\\FeesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Classivo\\Fees\\": "src/",
+                    "Classivo\\Fees\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Classivo\\Fees\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Classivo Team",
+                    "email": "info@classivoerp.com"
+                }
+            ],
+            "description": "Classivo ERP fees: fee heads, groups and masters, allocation, concessions, late fines, manual receipts (cash/cheque/bank transfer), refunds with credit notes, carry-forward, session rollover, defaulters and e-mail reminders. No payment gateway and no accounting: money movements are announced as events.",
+            "keywords": [
+                "erp",
+                "fees",
+                "filament",
+                "laravel",
                 "school"
             ],
             "transport-options": {

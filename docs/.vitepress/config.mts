@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 const pkgs = [
   'core',
   'exams',
+  'fees',
   'grading',
   'hr',
   'report-cards',
